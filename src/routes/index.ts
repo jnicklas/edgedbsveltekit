@@ -1,9 +1,15 @@
 import type { RequestHandler } from '@sveltejs/kit';
-import { e, db } from '$db';
+import edgedb from 'edgedb';
+import e from "../../dbschema/edgeql-js";
 
-export const get: RequestHandler = ({ params }) => {
+const db = edgedb.createClient();
+
+export const get: RequestHandler = async ({ params }) => {
+  let query = e.select(e.People);
+
+  let people = await db.run(people);
+
   return {
-    body: { count: 22 }
+    body: { people }
   }
-
 }
